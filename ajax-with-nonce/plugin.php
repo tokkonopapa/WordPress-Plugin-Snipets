@@ -81,7 +81,7 @@ class MyAjaxSample {
 		} else {
 			status_header( '403' );
 			header( 'Content-Type: text/plain; charset=' . $charset );
-			echo 'You don\'t have right permission.';
+			echo 'Forbidden';
 		}
 		die();
 	}
