@@ -26,8 +26,8 @@ class MyAjaxSample {
 
 		// Register ajax callback for logged in and not logged in user
 		$action = $this->get_anction_name();
-		add_action( 'wp_ajax_' . $action, array( $this, 'ajax_callback' ) );
-		add_action( 'wp_ajax_nopriv_' . $action, array( $this, 'ajax_callback' ) );
+		add_action( 'wp_ajax_' . $action, array( $this, 'ajax_submit' ) );
+		add_action( 'wp_ajax_nopriv_' . $action, array( $this, 'ajax_submit' ) );
 	}
 
 	// Registers and enqueues JavaScript
@@ -66,17 +66,21 @@ class MyAjaxSample {
 	}
 
 	// Callback for ajax
-	public function ajax_callback() {
-//		if ( check_ajax_referer( $this->get_anction_name(), 'ajax_nonce', false ) ) {
+	public function ajax_submit() {
+		$charset = get_option( 'blog_charset' );
+//		if ( check_admin_referer( $this->get_anction_name(), 'ajax_nonce', false ) ) {
 		if ( wp_verify_nonce( $_REQUEST['ajax_nonce'], $this->get_anction_name() ) ) {
-//			if ( is_user_logged_in() ) {
-			if ( current_user_can( 'edit_posts' ) ) {
-				echo 'hello, registered user!';
-			} else {
-				echo 'hello, visitor!';
-			}
+//			if ( is_user_logged_in() )
+			if ( current_user_can( 'edit_posts' ) )
+				$msg = 'hello, registered user!';
+			else
+				$msg = 'hello, visitor!';
+
+			header( 'Content-Type: application/json; charset=' . $charset );
+			echo json_encode( array( 'message' => $msg ) );
 		} else {
-			header('HTTP/1.1 403 Forbidden');
+			status_header( '403' );
+			header( 'Content-Type: text/plain; charset=' . $charset );
 			echo 'You don\'t have right permission.';
 		}
 		die();
