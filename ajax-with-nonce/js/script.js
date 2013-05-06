@@ -1,6 +1,6 @@
 (function ($) {
 	$(function () {
-		function my_ajax_call( id ) {
+		function my_ajax_request( id ) {
 			// `MyAjaxSample` is enqueued by wp_localize_script()
 			$.post( MyAjaxSample.ajax_url, {
 				action: MyAjaxSample.action,
@@ -17,7 +17,7 @@
 		// Preload now button
 		$( '#my_ajax_sample' ).on( 'click', function() {
 			$( '#my_ajax_response' ).text( "Requesting ..." );
-			my_ajax_call( '#my_ajax_response' );
+			my_ajax_request( '#my_ajax_response' );
 		});
 	});
 }(jQuery));
