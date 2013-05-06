@@ -5,10 +5,11 @@
 			$.post( MyAjaxSample.ajax_url, {
 				action: MyAjaxSample.action,
 				ajax_nonce: MyAjaxSample.ajax_nonce
-			// response: 0 (no handler) / -1 (invalid nonce)
 			}).done( function( data, textStatus, jqXHR ) {
-				$( id ).text( '0' !== data ? data : 'deactivated' );
+				// if no hander, response may be '0'
+				$( id ).text( typeof data === 'object' ? data.message : 'deactivated' );
 			}).fail( function( jqXHR, textStatus, errorThrown ) {
+				// if nonce does't match, response may be '-1'
 				$( id ).text( jqXHR.responseText );
 			});
 		}
