@@ -36,10 +36,10 @@ class MyAjaxSample {
 		wp_enqueue_script( $handle, plugin_dir_url( __FILE__ ) . 'js/script.js', array( 'jquery' ) );
 
 		$action = $this->get_anction_name();
-		wp_localize_script( $handle, 'MyAjaxSample', array(
-			'action' => $action,
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'ajax_nonce' => wp_create_nonce( $action ),
+		wp_localize_script( $handle, 'MyAjax', array(
+			'url' => admin_url( 'admin-ajax.php' ),
+			'action' => $action, // accessed as $_REQUEST['action'] inside WordPress
+			'token' => wp_create_nonce( $action ),
 		) );
 	}
 
@@ -68,8 +68,8 @@ class MyAjaxSample {
 	// Callback for ajax
 	public function ajax_submit() {
 		$charset = get_option( 'blog_charset' );
-//		if ( check_admin_referer( $this->get_anction_name(), 'ajax_nonce', false ) ) {
-		if ( wp_verify_nonce( $_REQUEST['ajax_nonce'], $this->get_anction_name() ) ) {
+//		if ( check_admin_referer( $this->get_anction_name(), 'token', false ) ) {
+		if ( wp_verify_nonce( $_REQUEST['token'], $this->get_anction_name() ) ) {
 //			if ( is_user_logged_in() )
 			if ( current_user_can( 'edit_posts' ) )
 				$msg = 'hello, registered user!';
