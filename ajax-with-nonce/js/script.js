@@ -11,7 +11,7 @@
 				$.each(data, function (key, val) {
 					msg += key + " => " + val + "<br />";
 				});
-				$(id).text(msg);
+				$(id).text('').append(msg);
 			} else {
 				$(id).text('deactivated');
 			}
