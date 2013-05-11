@@ -14,7 +14,7 @@ if( ! class_exists( 'MyAjaxSample' ) ) :
 
 class MyAjaxSample {
 	// Constants
-	const PLUGIN_SLUG = 'my_ajax';
+	const PLUGIN_SLUG = 'myajax';
 
 	// Constructor
 	function __construct() {
@@ -48,15 +48,15 @@ class MyAjaxSample {
 		$this->register_scripts();
 	}
 
-	// Shortcode for '[my_ajax]'
+	// Shortcode for '[myajax]'
 	public function enqueue_shortcode( $atts ) {
 		extract( shortcode_atts( array(
 			'text' => 'click me',
 		), $atts ) );
 
 		$text = sanitize_text_field( $text );
-		$code = '<input type="button" id="my_ajax_sample" value="' . $text . '" />';
-		$code .= '<p id="my_ajax_response"></p>';
+		$code = '<input type="button" id="myajax_sample" value="' . $text . '" />';
+		$code .= '<p id="myajax_response"></p>';
 		return $code;
 	}
 
@@ -67,7 +67,7 @@ class MyAjaxSample {
 
 	// Callback for ajax
 	public function ajax_submit() {
-		$charset = get_option( 'blog_charset' );
+		$charset = get_option( 'blog_charset' ); // should be UTF-8 for json_encode()
 //		if ( check_admin_referer( $this->get_anction_name(), 'token', false ) ) {
 		if ( wp_verify_nonce( $_REQUEST['token'], $this->get_anction_name() ) ) {
 //			if ( is_user_logged_in() )
@@ -76,11 +76,11 @@ class MyAjaxSample {
 			else
 				$msg = 'hello, visitor!';
 
-			header( 'Content-Type: application/json; charset=' . $charset );
+			header( "Content-Type: application/json; charset=$charset" );
 			echo json_encode( array( 'message' => $msg ) );
 		} else {
 			status_header( '403' );
-			header( 'Content-Type: text/plain; charset=' . $charset );
+			header( "Content-Type: text/plain; charset=$charset" );
 			echo 'Forbidden';
 		}
 		die();
@@ -88,7 +88,7 @@ class MyAjaxSample {
 
 } // end class
 
-global $my_ajax_sample;
-$my_ajax_sample = new MyAjaxSample();
+global $myajax_sample;
+$myajax_sample = new MyAjaxSample();
 
 endif; // class_exists

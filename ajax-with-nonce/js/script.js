@@ -1,5 +1,5 @@
 (function ($) {
-	function my_ajax_request(id) {
+	function myajax_request(id) {
 		// `MyAjax` is enqueued by wp_localize_script()
 		$.post(MyAjax.url, {
 			action: MyAjax.action,
@@ -23,9 +23,9 @@
 
 	$(function () {
 		// Ajax button
-		$('#my_ajax_sample').on('click', function () {
-			$('#my_ajax_response').text("Requesting ...");
-			my_ajax_request('#my_ajax_response');
+		$('#myajax_sample').on('click', function () {
+			$('#myajax_response').text("Requesting ...");
+			myajax_request('#myajax_response');
 		});
 	});
 }(jQuery));
