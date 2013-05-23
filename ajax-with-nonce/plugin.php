@@ -79,7 +79,7 @@ class MyAjaxSample {
 			header( "Content-Type: application/json; charset=$charset" );
 			echo json_encode( array( 'message' => $msg ) );
 		} else {
-			status_header( '403' );
+			status_header( 403 );
 			header( "Content-Type: text/plain; charset=$charset" );
 			echo 'Forbidden';
 		}
