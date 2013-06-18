@@ -3,7 +3,7 @@
 Plugin Name: My Ajax Sample
 Plugin URI: https://github.com/tokkonopapa/WordPress-Plugin-Snipets
 Description: A ajax sample using nonce for WordPress.
-Version: 0.1
+Version: 0.2.0
 Author: tokkonopapa
 Author URI: https://github.com/tokkonopapa
 Author Email: 
@@ -19,7 +19,7 @@ class MyAjaxSample {
 	// Constructor
 	function __construct() {
 		// Register scripts
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 
 		// Register shortcode
 		add_shortcode( self::PLUGIN_SLUG, array( $this, 'enqueue_shortcode' ) );
@@ -31,7 +31,7 @@ class MyAjaxSample {
 	}
 
 	// Registers and enqueues JavaScript
-	private function register_scripts() {
+	public function register_scripts() {
 		$handle = self::PLUGIN_SLUG . '-script';
 		wp_enqueue_script( $handle, plugin_dir_url( __FILE__ ) . 'js/script.js', array( 'jquery' ) );
 
@@ -41,11 +41,6 @@ class MyAjaxSample {
 			'action' => $action, // accessed as $_REQUEST['action'] inside WordPress
 			'token' => wp_create_nonce( $action ),
 		) );
-	}
-
-	// Registers and enqueues plugin-specific scripts
-	public function register_plugin_scripts() {
-		$this->register_scripts();
 	}
 
 	// Shortcode for '[myajax]'
@@ -88,7 +83,6 @@ class MyAjaxSample {
 
 } // end class
 
-global $myajax_sample;
-$myajax_sample = new MyAjaxSample();
+new MyAjaxSample();
 
 endif; // class_exists
