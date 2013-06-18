@@ -3,7 +3,6 @@
 Plugin Name: Description by Text Domain
 Plugin URI: https://github.com/tokkonopapa/WordPress-Plugin-Snipets
 Description: A sample description for multi languages on the dashboard.
-Sample plugin description for multi languages.
 Version: 0.1.0
 Author: tokkonopapa
 Author URI: https://github.com/tokkonopapa
